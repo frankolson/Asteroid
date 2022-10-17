@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool _isGameActive = true;
     [SerializeField] int _score;
     [SerializeField] float _currentLevel;
+    [SerializeField] string _playerName;
     
     public bool IsGameActive {
         get { return _isGameActive; }
@@ -24,6 +25,11 @@ public class GameManager : MonoBehaviour
         get { return _currentLevel; }
         private set { _currentLevel = value; }
     }
+    public string PlayerName {
+        get { return _playerName; }
+        private set { _playerName = value; }
+    }
+
 
     void Awake()
     {
