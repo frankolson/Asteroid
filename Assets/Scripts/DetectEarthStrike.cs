@@ -5,14 +5,14 @@ using UnityEngine;
 public class DetectEarthStrike : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionParticleSystem;
-    private GameManager gameManager;
+    [SerializeField] GameOverUIManager gameOverUIManager;
     private AudioSource explosionAudio;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         explosionAudio = GameObject.Find("Earth Strike Audio Source").GetComponent<AudioSource>();
+        gameOverUIManager = GameObject.Find("Game Over UI Manager").GetComponent<GameOverUIManager>();
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class DetectEarthStrike : MonoBehaviour
         if (other.gameObject.CompareTag("Earth"))
         {
             Explode();
-            gameManager.GameOver();
+            gameOverUIManager.TriggerGameOver();
         }
     }
 

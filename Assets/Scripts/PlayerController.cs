@@ -8,20 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] GameObject missilePrefab;
 
-    private GameManager gameManager;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
-    }
-
-    // Update is called once per frame
     void Update()
     {
         FollowMouse();
 
-        if (Input.GetKeyDown(KeyCode.Space) && gameManager.isGameActive)
+        if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.IsGameActive)
         {
             GameObject missile = Instantiate(
                 missilePrefab,

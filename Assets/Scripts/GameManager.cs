@@ -6,97 +6,41 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] int score;
-    [SerializeField] TextMeshProUGUI scoreText;
-    [SerializeField] GameObject titleScreen;
-    [SerializeField] GameObject gameOverScreen;
-    [SerializeField] GameObject asteroidPrefab;
-    [SerializeField] float asteroidFrequencySeconds = 2f;
-    [SerializeField] float frequencyIncreaseSpeed = 0.01f;
-    [SerializeField] AudioSource backgroundMusic;
+    public static GameManager Instance { get; private set; }
 
-    float yPositionUpperBound = 10.5f;
-    float xPositionHorizontalBound = 9.0f;
-
-    public bool isGameActive;
-    public enum Level { Easy, Medium, Hard }
+    [SerializeField] bool _isGameActive = true;
+    [SerializeField] int _score;
+    [SerializeField] float _currentLevel;
     
-    void Start()
+    public bool IsGameActive {
+        get { return _isGameActive; }
+        set { _isGameActive = value; }
+    }
+    public int Score {
+        get { return _score; }
+        set { _score = value; }
+    }
+    public float CurrentLevel {
+        get { return _currentLevel; }
+        private set { _currentLevel = value; }
+    }
+
+    void Awake()
     {
-        // StartGame(Level.Easy);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void StartGame(float level)
     {
-        isGameActive = true;
-        score = 0;
-        asteroidFrequencySeconds -= level;
-
-        titleScreen.SetActive(false);
-        scoreText.gameObject.SetActive(true);
-        UpdateScoreText(score);
-        StartCoroutine(SpawnAsteroids());
-        backgroundMusic.Play();
-    }
-
-    public void GameOver()
-    {
-        isGameActive = false;
-        gameOverScreen.SetActive(true);
-    }
-
-    public void RestartGame()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-    public void IncrementScore()
-    {
-        score += 1;
-        UpdateScoreText(score);
-    }
-
-    void UpdateScoreText(int newScore)
-    {
-        scoreText.text = $"Score: {newScore}";
-    }
-
-    IEnumerator SpawnAsteroids()
-    {
-        while (isGameActive)
-        {
-            SpawnAsteroid();
-            yield return new WaitForSeconds(asteroidFrequencySeconds);
-            increaseAsteroidFrequency();
-        }
-    }
-
-    void SpawnAsteroid()
-    {
-        Instantiate(
-            asteroidPrefab,
-            RandomSpawnPosition(),
-            asteroidPrefab.transform.rotation
-        );
-    }
-
-    Vector3 RandomSpawnPosition()
-    {
-        float xPosition = Random.Range(
-            -xPositionHorizontalBound,
-            xPositionHorizontalBound
-        );
-
-        return new Vector3(xPosition, yPositionUpperBound, 0);
-    }
-
-    void increaseAsteroidFrequency()
-    {
-        float newFrequency = asteroidFrequencySeconds - frequencyIncreaseSpeed;
-        
-        if (newFrequency > 0)
-        {
-            asteroidFrequencySeconds = newFrequency;
-        }
+        IsGameActive = true;
+        Score = 0;
+        CurrentLevel = level;
+        SceneManager.LoadScene(1);
     }
 }

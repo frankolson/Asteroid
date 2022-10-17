@@ -5,14 +5,14 @@ using UnityEngine;
 public class DetectMissileStrike : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionParticleSystem;
-    private GameManager gameManager;
+    [SerializeField] ScoreUIManager scoreUIManager;
     private AudioSource explosionAudio;
 
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         explosionAudio = GameObject.Find("Missile Strike Audio Source").GetComponent<AudioSource>();
+        scoreUIManager = GameObject.Find("Score UI Manager").GetComponent<ScoreUIManager>();
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class DetectMissileStrike : MonoBehaviour
         {
             Destroy(other.gameObject);
             Explode();
-            gameManager.IncrementScore();
+            scoreUIManager.IncrementScore();
         }
     }
 
