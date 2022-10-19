@@ -15,12 +15,6 @@ public class DetectEarthStrike : MonoBehaviour
         gameOverUIManager = GameObject.Find("Game Over UI Manager").GetComponent<GameOverUIManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnCollisionEnter(Collision other)
     {
         Destroy(gameObject);

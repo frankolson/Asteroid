@@ -6,6 +6,15 @@ public class StartGameManager : MonoBehaviour
 {
     public void StartGame(float level)
     {
-        GameManager.Instance.StartGame(level);
+        string playerName = GameManager.Instance.PlayerName;
+        if (playerName != null && playerName != "")
+        {
+            GameManager.Instance.StartGame(level);
+        }
+    }
+
+    public void UpdatePlayerName(string newName)
+    {
+        GameManager.Instance.PlayerName = newName;
     }
 }

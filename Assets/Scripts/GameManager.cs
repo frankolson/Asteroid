@@ -1,17 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
+    public const string savedataFilename = "savedata.json";
 
     [SerializeField] bool _isGameActive = true;
     [SerializeField] int _score;
     [SerializeField] float _currentLevel;
     [SerializeField] string _playerName;
+
+    public List<PlayerStat> playerStats = new List<PlayerStat>();
     
     public bool IsGameActive {
         get { return _isGameActive; }
@@ -27,9 +30,8 @@ public class GameManager : MonoBehaviour
     }
     public string PlayerName {
         get { return _playerName; }
-        private set { _playerName = value; }
+        set { _playerName = value; }
     }
-
 
     void Awake()
     {
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        LoadLeaderboard();
     }
 
     public void StartGame(float level)
@@ -48,5 +51,55 @@ public class GameManager : MonoBehaviour
         Score = 0;
         CurrentLevel = level;
         SceneManager.LoadScene(1);
+    }
+
+    [System.Serializable]
+    public class PlayerStat
+    {
+        public string name;
+        public int score;
+    }
+
+    [System.Serializable]
+    class PlayerStatsList
+    {
+        public List<PlayerStat> playerStats;
+    }
+
+    public void SavePlayerStat()
+    {
+        PlayerStat currentPlayerStat = new PlayerStat();
+        currentPlayerStat.name = PlayerName;
+        currentPlayerStat.score = Score;
+        
+        playerStats.Add(currentPlayerStat);
+        SaveLeaderboard();
+    }
+
+    void SaveLeaderboard()
+    {
+        Debug.Log("Saving player stats...");
+        PlayerStatsList data = new PlayerStatsList();
+        data.playerStats = playerStats;
+
+        string json = JsonUtility.ToJson(data);
+        Debug.Log(json);
+
+        File.WriteAllText($"{Application.persistentDataPath}/{savedataFilename}", json);
+    }
+
+    void LoadLeaderboard()
+    {
+        string path = $"{Application.persistentDataPath}/{savedataFilename}";
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            PlayerStatsList data = JsonUtility.FromJson<PlayerStatsList>(json);
+
+            if (data.playerStats != null)
+            {
+                playerStats = data.playerStats;
+            }
+        }
     }
 }

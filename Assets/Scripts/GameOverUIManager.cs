@@ -9,8 +9,12 @@ public class GameOverUIManager : MonoBehaviour
 
     public void TriggerGameOver()
     {
-        GameManager.Instance.IsGameActive = false;
-        gameOverScreen.SetActive(true);
+        if (GameManager.Instance.IsGameActive)
+        {
+            GameManager.Instance.IsGameActive = false;
+            GameManager.Instance.SavePlayerStat();
+            gameOverScreen.SetActive(true);
+        }
     }
 
     public void RestartGame()
