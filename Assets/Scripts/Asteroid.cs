@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DetectEarthStrike : MonoBehaviour
+public class Asteroid : MonoBehaviour
 {
     [SerializeField] ParticleSystem explosionParticleSystem;
-    [SerializeField] GameOverUIManager gameOverUIManager;
-    private AudioSource explosionAudio;
+    
+    AudioSource explosionAudio;
+    GameOverUIManager gameOverUIManager;
 
     // Start is called before the first frame update
     void Start()
@@ -15,7 +16,7 @@ public class DetectEarthStrike : MonoBehaviour
         gameOverUIManager = GameObject.Find("Game Over UI Manager").GetComponent<GameOverUIManager>();
     }
 
-    private void OnCollisionEnter(Collision other)
+    void OnCollisionEnter(Collision other)
     {
         Destroy(gameObject);
 
@@ -26,7 +27,7 @@ public class DetectEarthStrike : MonoBehaviour
         }
     }
 
-    private void Explode()
+    void Explode()
     {
         ParticleSystem explosionParticle = Instantiate(explosionParticleSystem, transform.position, transform.rotation);
         explosionParticle.Play();

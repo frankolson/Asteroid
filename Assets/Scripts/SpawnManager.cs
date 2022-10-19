@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
-    [SerializeField] GameObject asteroidPrefab;
+    // [SerializeField] GameObject asteroidPrefab;
+    [SerializeField] List<GameObject> asteroidPrefabs;
     [SerializeField] float frequencyIncreaseSpeed = 0.01f;
 
     float asteroidFrequencySeconds = 2f;
@@ -35,6 +36,8 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnAsteroid()
     {
+        GameObject asteroidPrefab = asteroidPrefabs[Random.Range(0, asteroidPrefabs.Count)];
+        
         Instantiate(
             asteroidPrefab,
             RandomSpawnPosition(),

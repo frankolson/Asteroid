@@ -1359,7 +1359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03f229109e3824e21b36f9f58eeb3826, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  asteroidPrefab: {fileID: 3051038909127657353, guid: c7001f6a21c1f4b11bea7c587fbe598b, type: 3}
+  asteroidPrefabs:
+  - {fileID: 3051038909127657353, guid: c7001f6a21c1f4b11bea7c587fbe598b, type: 3}
+  - {fileID: 3051038909127657353, guid: 84f4c4d6c2fa549ca90bb7a9e573e93e, type: 3}
   frequencyIncreaseSpeed: 0.01
 --- !u!4 &876727421
 Transform:
